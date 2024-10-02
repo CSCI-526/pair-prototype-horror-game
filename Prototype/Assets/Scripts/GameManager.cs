@@ -13,12 +13,12 @@ public class GameManager : MonoBehaviour
         winPanel.SetActive(false);
     }
 
-    // µ÷ÓÃÕâ¸ö·½·¨À´ÏÔÊ¾µ¯´°
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
     public void ShowWinPanel()
     {
         winText.text = "You Win!"; 
         winPanel.SetActive(true);  
     }
 
-    // ÆäËûÓÎÏ·Âß¼­...
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ß¼ï¿½...
 }
