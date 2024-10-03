@@ -2,31 +2,42 @@ using UnityEngine;
 
 public class GhostAudioController : MonoBehaviour
 {
-    public float range1 = 15f;  // Radius for first range
-    public float range2 = 10f; // Radius for second range
-    public float range3 = 5f; // Radius for third range
+    public float range1 = 30f;
+    public float range2 = 25f;
+    public float range3 = 20f;
+    public float range4 = 15f;  // Radius for first range
+    public float range5 = 10f; // Radius for second range
+    public float range6 = 5f; // Radius for third range
 
     private AudioSource audioSourceRange1;
     private AudioSource audioSourceRange2;
     private AudioSource audioSourceRange3;
+    private AudioSource audioSourceRange4;
+    private AudioSource audioSourceRange5;
+    private AudioSource audioSourceRange6;
 
-    private Transform targetGhost;
+    private GameObject targetGhost;
 
     void Start()
     {
         // Get all AudioSource components on this GameObject
         AudioSource[] audioSources = GetComponents<AudioSource>();
         
-        if (audioSources.Length >= 3)
+        if (audioSources.Length >= 6)
         {
             audioSourceRange1 = audioSources[0];
             audioSourceRange2 = audioSources[1];
             audioSourceRange3 = audioSources[2];
+            audioSourceRange4 = audioSources[3];
+            audioSourceRange5 = audioSources[4];
+            audioSourceRange6 = audioSources[5];
+
         }
         else
         {
             Debug.LogError("Not enough AudioSources attached to this GameObject. You need at least 3.");
         }
+        StopAllAudios();
     }
 
     void Update()
@@ -37,7 +48,7 @@ public class GhostAudioController : MonoBehaviour
 
         if (targetGhost != null)
         {
-            float distance = Vector3.Distance(transform.position, targetGhost.position);
+            float distance = Vector3.Distance(transform.position, targetGhost.transform.position);
             PlayAudioForRange(distance);
         }
         else
@@ -46,18 +57,17 @@ public class GhostAudioController : MonoBehaviour
         }
     }
 
-    Transform FindClosestGhost(GameObject[] ghosts)
+    GameObject FindClosestGhost(GameObject[] ghosts)
     {
-        Transform closestGhost = null;
+        GameObject closestGhost = null;
         float minDistance = Mathf.Infinity;
-
         foreach (GameObject ghost in ghosts)
         {
             float distance = Vector3.Distance(transform.position, ghost.transform.position);
             if (distance < minDistance)
             {
                 minDistance = distance;
-                closestGhost = ghost.transform;
+                closestGhost = ghost;
             }
         }
 
@@ -85,13 +95,40 @@ public class GhostAudioController : MonoBehaviour
                 audioSourceRange2.Play();
             }
         }
-        else if (distance <= range3)
+        else if (distance <= range3 && distance > range4)
         {
             if (!audioSourceRange3.isPlaying)
             {
                 StopAllAudios();
                 Debug.Log("Playing audio for range 3");
                 audioSourceRange3.Play();
+            }
+        }
+        else if (distance <= range4 && distance > range5)
+        {
+            if (!audioSourceRange4.isPlaying)
+            {
+                StopAllAudios();
+                Debug.Log("Playing audio for range 4");
+                audioSourceRange4.Play();
+            }
+        }
+        else if (distance <= range5 && distance > range6)
+        {
+            if (!audioSourceRange5.isPlaying)
+            {
+                StopAllAudios();
+                Debug.Log("Playing audio for range 5");
+                audioSourceRange5.Play();
+            }
+        }
+        else if (distance <= range6)
+        {
+            if (!audioSourceRange6.isPlaying)
+            {
+                StopAllAudios();
+                Debug.Log("Playing audio for range 6");
+                audioSourceRange6.Play();
             }
         }
         else
@@ -108,5 +145,9 @@ public class GhostAudioController : MonoBehaviour
         if (audioSourceRange1.isPlaying) audioSourceRange1.Stop();
         if (audioSourceRange2.isPlaying) audioSourceRange2.Stop();
         if (audioSourceRange3.isPlaying) audioSourceRange3.Stop();
+        if (audioSourceRange4.isPlaying) audioSourceRange4.Stop();
+        if (audioSourceRange5.isPlaying) audioSourceRange5.Stop();
+        if (audioSourceRange6.isPlaying) audioSourceRange6.Stop();
+
     }
 }
